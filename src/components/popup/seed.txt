@@ -1,0 +1,108 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import * as bip39 from "bip39";
+import * as bs58 from "bs58";
+import wordlist from "@/components/wordlist.json";
+import { derivePath } from "ed25519-hd-key";
+import { PublicKey } from "@solana/web3.js";
+
+const SeedphraseBox = () => {
+  const [seedPhrase, setSeedPhrase] = useState<string[]>(Array(12).fill(""));
+  const [publicKey, setPublicKey] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  // Set the English wordlist explicitly
+  useEffect(() => {
+    bip39.wordlists.english = wordlist;
+  }, []);
+
+  const handleSeedInputChange = (index: number, value: string) => {
+    const updatedSeed = [...seedPhrase];
+    updatedSeed[index] = value.trim();
+    setSeedPhrase(updatedSeed);
+  };
+
+  const validateSeedPhrase = (mnemonic: string) => {
+    // Ensure no extra spaces and validate the mnemonic
+    return bip39.validateMnemonic(mnemonic, bip39.wordlists.english);
+  };
+
+  const generatePublicKey = async () => {
+    try {
+      const mnemonic = seedPhrase.join(" ").trim();
+  
+      // Validate the mnemonic
+      if (!validateSeedPhrase(mnemonic)) {
+        alert("Invalid seed phrase. Please check your input.");
+        return;
+      }
+  
+      // Generate seed from mnemonic
+      const seed = await bip39.mnemonicToSeed(mnemonic);
+  
+      // Derive the keypair using Solana's derivation path
+      const path = "m/44'/501'/0'/0'"; // Solana-specific derivation path
+      const derivedSeed = derivePath(path, seed.toString("hex")).key;
+  
+      // The public key is derived from the first 32 bytes of the derived seed
+      const pubKey = new PublicKey(derivedSeed.subarray(0, 32)); // Corrected: Use the first 32 bytes for the public key
+      setPublicKey(pubKey.toBase58());
+    } catch (error) {
+      console.error("Error generating public key:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+  
+
+  const handleCopy = () => {
+    if (publicKey) {
+      navigator.clipboard.writeText(publicKey);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <div style={{ backgroundColor: "#13161f" }} className="h-screen w-full bg-gray-900 text-white flex flex-col items-center pt-5">
+      <h1 className="text-xl font-bold mb-4">Seed Phrase to Solana Public Key</h1>
+
+      {/* Seed Phrase Input Fields */}
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        {seedPhrase.map((word, index) => (
+          <input
+            key={index}
+            type="text"
+            value={word}
+            onChange={(e) => handleSeedInputChange(index, e.target.value)}
+            className="w-20 p-2 text-center bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder={`Word ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      <button
+        onClick={generatePublicKey}
+        className="px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700 text-white"
+      >
+        Generate Public Key
+      </button>
+
+      {/* Display Public Key */}
+      {publicKey && (
+        <div className="mt-5 text-center">
+          <p className="text-lg font-medium">Public Key:</p>
+          <p className="font-mono text-sm mt-2">{publicKey}</p>
+          <button
+            onClick={handleCopy}
+            className="mt-2 px-3 py-1 bg-green-600 rounded-md hover:bg-green-700 text-white"
+          >
+            {copied ? "Copied!" : "Copy Public Key"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SeedphraseBox;
