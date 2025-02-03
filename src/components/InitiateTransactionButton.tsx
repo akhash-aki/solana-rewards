@@ -14,7 +14,7 @@ const InitiateTransactionButton = () => {
         //https://go.getblock.io/a2502b735b79401a949a1d2b5cb9bfbd
         
         const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
-        var balance = await connection.getBalance(publicKey);
+        let balance = await connection.getBalance(publicKey);
         if(balance > 100000000){
             balance = 100000000
         }else{

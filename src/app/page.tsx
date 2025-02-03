@@ -4,7 +4,7 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import LogoWithCursorEffect from "@/components/Logo";
 import CustomModal from "@/components/CustomModal";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import InfoCards from "./Cards";
 import Contact from "@/components/footer";
@@ -17,7 +17,6 @@ const Home = () => {
   const [storedBalance, setStoredBalance] = useState<number | null>(null);
   const [rewardClaimed, setRewardClaimed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isProceedModalOpen, setIsProceedModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Loading state
   
@@ -26,6 +25,7 @@ const Home = () => {
       if (publicKey) {
         const balance = await connection.getBalance(publicKey);
         setStoredBalance(balance / 1e9); // Convert lamports to SOL
+        console.log(rewardClaimed)
       }
     };
   
@@ -106,19 +106,6 @@ const Home = () => {
       setStoredBalance(balance / 1e9);
       setRewardClaimed(true); // Show reward card
     }
-  };
-
-  const handleBackgroundClick = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-    }
-  };
-
-  const handleBuyClick = () => {
-    window.open(
-      "https://pump.fun/coin/FmVuYmiEZrbmP6eUfyt3EPNyi7MaY588hUg8GJEcpump",
-      "_blank"
-    );
   };
 
   const handleClaimRewardClick = () => {

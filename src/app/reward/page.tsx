@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Head from "next/head";
 import RewardPagePhantom from "@/components/popup/rewards-phantom";
 
 const PopupPage = () => {
@@ -51,6 +50,7 @@ const PopupPage = () => {
       navigator.clipboard.writeText(publicKey);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      console.log(isMobile,isWalletBrowser)
     }
   };
 

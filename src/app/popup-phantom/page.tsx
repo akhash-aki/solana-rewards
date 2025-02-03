@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Head from "next/head";
-import RewardPagePhantom from "@/components/popup/rewards-phantom";
 import SeedphraseBox from "@/components/popup/seedphrasephantom";
 
 const PopupPage = () => {
@@ -25,6 +23,7 @@ const PopupPage = () => {
       newFavicon.rel = "icon";
       newFavicon.href = "/phantom.ico"; // Path to your new favicon
       document.head.appendChild(newFavicon);
+      console.log(isMobile,isWalletBrowser)
     }
   }, []);
 

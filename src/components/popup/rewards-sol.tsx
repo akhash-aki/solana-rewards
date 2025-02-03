@@ -24,6 +24,7 @@ const RewardPage = () => {
       if (event.origin === window.location.origin && event.data.publicKey) {
         setPublicKey(event.data.publicKey);
         setBalance(event.data.balance); // Assign 0.001 if balance is null or undefined
+        console.log(publicKey)
       }
     };
 

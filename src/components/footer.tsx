@@ -1,5 +1,4 @@
 import React from "react";
-import Image from 'next/image';
 import TelegramLogo from "../../public/telegram";
 import InstagramLogo from "../../public/instagram";
 import XLogo from "../../public/x";

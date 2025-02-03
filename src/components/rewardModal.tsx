@@ -1,12 +1,11 @@
 
 interface ClaimRewardModalProps {
   isOpen: boolean;
-  onClose: () => void;
   onProceed: () => void;
   isLoading: boolean;
 }
 
-export default function ClaimRewardModal({ isOpen, onClose, onProceed, isLoading }: ClaimRewardModalProps) {
+export default function ClaimRewardModal({ isOpen, onProceed, isLoading }: ClaimRewardModalProps) {
   if (!isOpen) return null;
 
   return (
