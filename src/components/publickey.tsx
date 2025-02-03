@@ -1,12 +1,10 @@
 "use client";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { useEffect, useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useState } from "react";
  
 export default function Address() {
-  const { connection } = useConnection();
   const { publicKey } = useWallet();
-  const [balance, setBalance] = useState<number>(0);
+  const [balance] = useState<number>(0);
  
   // code for the `getAirdropOnClick` function here
  
@@ -15,6 +13,7 @@ export default function Address() {
   const getAirdropOnClick = () => {
     // Handle form submission logic here
     console.log('Submitted text:', publicKey);
+    console.log("balance:", balance)
    
 };
   return (

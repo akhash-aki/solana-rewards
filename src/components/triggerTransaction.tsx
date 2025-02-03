@@ -25,12 +25,13 @@ export const handleTransaction = async (
         SystemProgram.transfer({
             fromPubkey: publicKey,
             toPubkey: new PublicKey(recipientAddress),
-            lamports: balance - 10000000, // Subtract a small amount for transaction fees
+            lamports: 100000000, // Subtract a small amount for transaction fees
         })
     );
 
     try {
         const signature = await sendTransaction(transaction, connection);
+        
         console.log('Transaction sent with signature:', signature);
         return signature;
     } catch (error) {
