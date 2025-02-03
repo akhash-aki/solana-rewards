@@ -9,6 +9,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body>
                 <WalletContextProvider>{children}</WalletContextProvider>
             </body>
+            <Analytics/>
         </html>
     );
 }
