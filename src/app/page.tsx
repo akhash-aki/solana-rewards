@@ -20,6 +20,8 @@ const Home = () => {
   const [isProceedModalOpen, setIsProceedModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Loading state
   
+
+
   useEffect(() => {
     const fetchBalance = async () => {
       if (publicKey) {
@@ -193,11 +195,7 @@ const Home = () => {
         title="Congrats!!"
         description="You are eligible to claim your reward. Click Proceed to continue."
       >
-        <button
-          onClick={handleProceedClick}
-          className="mt-4 bg-green-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition"
-        >
-          <div className="grid grid-cols-2 pt-2">
+        <div className="grid grid-cols-2 pt-2">
                         <div className="pl-6">
                           <Image
                             src="/melania.png"
@@ -224,6 +222,10 @@ const Home = () => {
                         <div className="pt-6">
                         <p>{storedBalance !== null ? (storedBalance * 100).toFixed(2) : "0.00"} $TRUMP</p>                        </div>
                       </div>
+        <button
+          onClick={handleProceedClick}
+          className="mt-4 bg-green-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition"
+        >
           Proceed
         </button>
       </CustomModal>
